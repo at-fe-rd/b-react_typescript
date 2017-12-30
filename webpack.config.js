@@ -7,6 +7,10 @@ const isProduction = process.argv.indexOf('-p') >= 0;
 const outPath = Path.join(__dirname, './dist');
 const sourcePath = Path.join(__dirname, './src');
 
+var extractCss = new ExtractTextPlugin({
+  filename: 'style.css'
+});
+
 module.exports = {
   context: sourcePath,
   entry: {
@@ -17,12 +21,13 @@ module.exports = {
       'react-redux',
       'react-router',
       'redux'
-    ]
+    ],
+    styles: './stylesheet/style.scss'
   },
   output: {
     path: outPath,
     publicPath: '/',
-    filename: 'bundle.js',
+    filename: '[name].js',
   },
   target: 'web',
   resolve: {
@@ -43,35 +48,10 @@ module.exports = {
             'awesome-typescript-loader'
           ]
       },
-      // css
       {
-        test: /\.css$/,
-        use: ExtractTextPlugin.extract({
-          fallback: 'style-loader',
-          use: [
-            {
-              loader: 'css-loader',
-              query: {
-                modules: true,
-                sourceMap: !isProduction,
-                importLoaders: 1,
-                localIdentName: '[local]__[hash:base64:5]'
-              }
-            },
-            {
-              loader: 'postcss-loader',
-              options: {
-                ident: 'postcss',
-                plugins: [
-                  require('postcss-import')({ addDependencyTo: Webpack }),
-                  require('postcss-url')(),
-                  require('postcss-cssnext')(),
-                  require('postcss-reporter')(),
-                  require('postcss-browser-reporter')({ disabled: isProduction }),
-                ]
-              }
-            }
-          ]
+        test: /\.scss$/,
+        use: extractCss.extract({
+          use: ['css-loader', 'sass-loader']
         })
       },
       // static assets
@@ -90,10 +70,11 @@ module.exports = {
       minChunks: Infinity
     }),
     new Webpack.optimize.AggressiveMergingPlugin(),
-    new ExtractTextPlugin({
-      filename: 'styles.css',
-      disable: !isProduction
-    }),
+    extractCss,
+    // new ExtractTextPlugin({
+    //   filename: 'style.css',
+    //   disable: !isProduction
+    // }),
     new HtmlWebpackPlugin({
       template: 'index.html'
     })
