@@ -1,5 +1,6 @@
 import * as React from 'react';
 import * as classNames from 'classnames';
+import { Link } from 'react-router-dom'
 
 export namespace Header {
   export interface Props {
@@ -15,9 +16,15 @@ export class Header extends React.Component<Header.Props, Header.State> {
 
   render() {
     return (
-      <footer className="footer">
+      <header className="header">
         <span>This is header</span>
-      </footer>
+        <nav>
+          <ul>
+            <li><Link to='/news'>News</Link></li>
+            <li><Link to='/contact'>Contact</Link></li>
+          </ul>
+        </nav>
+      </header>
     );
   }
 }

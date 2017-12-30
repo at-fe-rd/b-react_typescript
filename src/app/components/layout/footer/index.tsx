@@ -16,7 +16,7 @@ export class Footer extends React.Component<Footer.Props, Footer.State> {
   render() {
     return (
       <footer className="footer">
-        <span>Copy right @ Vix Nguyen</span>
+        <span>Copy right @Front End Team</span>
       </footer>
     );
   }
