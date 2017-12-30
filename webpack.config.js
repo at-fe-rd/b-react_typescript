@@ -11,6 +11,21 @@ var extractCss = new ExtractTextPlugin({
   filename: 'style.css'
 });
 
+const scriptIncludes = [
+  'script-loader!../node_modules/jquery/dist/jquery.min.js',
+  'script-loader!../node_modules/bootstrap/dist/js/bootstrap.min.js',
+  'script-loader!./assets/js/ui-load.js',
+  //'script-loader!./assets/js/ui-jp.js',
+  'script-loader!./assets/js/ui-include.js',
+  'script-loader!./assets/js/ui-device.js',
+  'script-loader!./assets/js/ui-form.js',
+  'script-loader!./assets/js/ui-nav.js',
+  'script-loader!./assets/js/ui-screenfull.js',
+  'script-loader!./assets/js/ui-scroll-to.js',
+  'script-loader!./assets/js/ui-toggle-class.js',
+  'script-loader!./assets/js/ui-taburl.js'
+];
+
 module.exports = {
   context: sourcePath,
   entry: {
@@ -22,7 +37,11 @@ module.exports = {
       'react-router',
       'redux'
     ],
-    styles: './stylesheet/style.scss'
+    scripts: scriptIncludes,
+    styles: [
+      '../node_modules/font-awesome/scss/font-awesome.scss',
+      './stylesheet/style.scss'
+    ]
   },
   output: {
     path: outPath,
@@ -54,6 +73,12 @@ module.exports = {
           use: ['css-loader', 'sass-loader']
         })
       },
+      // font
+      {test: /\.svg(\?v=\d+\.\d+\.\d+)?$/, loader: 'file-loader?mimetype=image/svg+xml'},
+      {test: /\.woff(\?v=\d+\.\d+\.\d+)?$/, loader: 'file-loader?mimetype=application/font-woff'},
+      {test: /\.woff2(\?v=\d+\.\d+\.\d+)?$/, loader: 'file-loader?mimetype=application/font-woff'},
+      {test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/, loader: 'file-loader?mimetype=application/octet-stream'},
+      {test: /\.eot(\?v=\d+\.\d+\.\d+)?$/, loader: 'file-loader'},
       // static assets
       { test: /\.html$/, use: 'html-loader' },
       { test: /\.png$/, use: 'url-loader?limit=10000' },

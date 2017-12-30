@@ -16,15 +16,7 @@ export class Header extends React.Component<Header.Props, Header.State> {
 
   render() {
     return (
-      <header className="header">
-        <span>This is header</span>
-        <nav>
-          <ul>
-            <li><Link to='/news'>News</Link></li>
-            <li><Link to='/contact'>Contact</Link></li>
-          </ul>
-        </nav>
-      </header>
+      <header></header>
     );
   }
 }
